@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SurveyApp.Application.Repositories;
 using SurveyApp.Persistence.Contexts;
+using SurveyApp.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +14,15 @@ namespace SurveyApp.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceServices(this IServiceCollection services)
+        public static async void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<SurveyAppContext>(options => options.UseSqlServer("server=UFUK;database=Survey;integrated security=true"));
+            var conn = configuration["ConnectionString"].ToString();
+            services.AddDbContext<SurveyAppContext>(options => options.UseSqlServer(conn));
+
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            //var seedData = new SeedData();
+            //await seedData.SeedAsync(configuration);
         }
     }
 }

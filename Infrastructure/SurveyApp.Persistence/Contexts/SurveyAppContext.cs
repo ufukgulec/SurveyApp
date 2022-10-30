@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SurveyApp.Domain.Entities;
+using SurveyApp.Domain.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,6 +101,60 @@ namespace SurveyApp.Persistence.Contexts
                 .HasForeignKey(a => a.ParticipantId);
             #endregion
 
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var conn = "server=UFUK;database=Survey;integrated security=true";
+                optionsBuilder.UseSqlServer(conn);
+            }
+        }
+        public override int SaveChanges()
+        {
+            OnBeforeSave();
+            return base.SaveChanges();
+        }
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            OnBeforeSave();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            OnBeforeSave();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            OnBeforeSave();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+        private void OnBeforeSave()
+        {
+            var added = ChangeTracker.Entries()
+                                    .Where(i => i.State == EntityState.Added)
+                                    .Select(i => (BaseEntity)i.Entity);
+
+            var modified = ChangeTracker.Entries()
+                                    .Where(i => i.State == EntityState.Modified)
+                                    .Select(i => (BaseEntity)i.Entity);
+            PrepareAddedEntities(added);
+            PrepareModifiedEntities(added);
+        }
+        private void PrepareAddedEntities(IEnumerable<BaseEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                entity.CreatedDate = DateTime.Now;
+            }
+        }
+        private void PrepareModifiedEntities(IEnumerable<BaseEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                entity.UpdatedDate = DateTime.Now;
+            }
         }
     }
 }
