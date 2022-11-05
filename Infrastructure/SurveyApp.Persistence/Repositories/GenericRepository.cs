@@ -46,7 +46,7 @@ namespace SurveyApp.Persistence.Repositories
             return query.FirstOrDefault(expression);
         }
 
-        public List<T> GetList(Expression<Func<T, bool>>? expression, bool justActive = true, params Expression<Func<T, object>>[] includes)
+        public List<T> GetList(Expression<Func<T, bool>>? expression = null, bool justActive = true, params Expression<Func<T, object>>[] includes)
         {
             var query = Table.AsQueryable().AsNoTracking();
 
@@ -65,7 +65,7 @@ namespace SurveyApp.Persistence.Repositories
             return query.ToList();
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>>? expression, bool justActive = true, bool tracking = true, params Expression<Func<T, object>>[] includes)
+        public IQueryable<T> GetAll(Expression<Func<T, bool>>? expression = null, bool justActive = true, bool tracking = true, params Expression<Func<T, object>>[] includes)
         {
             var query = Table.AsQueryable();
             if (!tracking)
@@ -102,7 +102,7 @@ namespace SurveyApp.Persistence.Repositories
             }
             return await query.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
         }
-        public async Task<T?> GetSingleAsync(Expression<Func<T, bool>> expression, bool tracking = true, params Expression<Func<T, object>>[] includes)
+        public async Task<T?> GetSingleAsync(Expression<Func<T, bool>>? expression = null, bool tracking = true, params Expression<Func<T, object>>[] includes)
         {
             var query = Table.AsQueryable();
             if (!tracking)
@@ -113,10 +113,18 @@ namespace SurveyApp.Persistence.Repositories
             {
                 query = query.Include(item);
             }
-            return await query.FirstOrDefaultAsync(expression);
+            if (expression is not null)
+            {
+                return await query.FirstOrDefaultAsync(expression);
+            }
+            else
+            {
+                return await query.FirstOrDefaultAsync();
+            }
+
         }
 
-        public async Task<List<T>> GetListAsync(Expression<Func<T, bool>>? expression, bool justActive = true, params Expression<Func<T, object>>[] includes)
+        public async Task<List<T>> GetListAsync(Expression<Func<T, bool>>? expression = null, bool justActive = true, params Expression<Func<T, object>>[] includes)
         {
             var query = Table.AsNoTracking();
             if (justActive)

@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using SurveyApp.Application.Repositories;
+using SurveyApp.Application.UnitOfWork;
 using SurveyApp.Domain.Entities;
+using SurveyApp.Persistence.Contexts;
+using SurveyApp.Persistence.Repositories;
+using SurveyApp.Persistence.UnitOfWork;
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -14,23 +18,17 @@ namespace SurveyApp.API.Controllers
     [ApiController]
     public class CountryController : BaseController<Country>
     {
-        private readonly ICountryRepository _countryRepository;
-        private readonly IUserRepository _userRepository;
-        public CountryController(ICountryRepository countryRepository, IUserRepository userRepository) : base()
+        private readonly IUnitOfWork service;
+        public CountryController(IUnitOfWork unitOfWork)
         {
-            _countryRepository = countryRepository;
-            _userRepository = userRepository;
+            service = unitOfWork;
         }
         [HttpGet("GetAll")]
         public IActionResult Get()
         {
-            //var data = _userRepository.GetListAsync(null).GetAwaiter().GetResult();
-            var data = _userRepository.GetList(x => x.Name == "Ufuk Güleç", default, x => x.Profile.Role);
-            //if (data.Count == 0)
-            //{
-            //    logger.Information("About page visited at {DT}",
-            //DateTime.Now.ToLongTimeString());
-            //}
+            
+            var data = service.UserRepository.GetList();
+
             return Ok(data);
         }
         [HttpGet("OrderedByUserCount")]

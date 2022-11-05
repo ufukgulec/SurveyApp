@@ -34,7 +34,7 @@ namespace SurveyApp.Application.Repositories
         /// <param name="expression"></param>
         /// <param name="includes"></param>
         /// <returns>Çoğul veri List T</returns>
-        List<T> GetList(Expression<Func<T, bool>>? expression, bool justActive = true, params Expression<Func<T, object>>[] includes);
+        List<T> GetList(Expression<Func<T, bool>>? expression = null, bool justActive = true, params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         /// Girilebilecek koşula göre veri döner. Eğer koşul yoksa null atanmalıdır. Tracking mekanizmasına ihtiyaç yoksa false atanmalıdı. Include işlemi için (x=>x.Property1,x=>x.Property2) kullanılmalıdır.
@@ -43,7 +43,7 @@ namespace SurveyApp.Application.Repositories
         /// <param name="tracking">Tracking</param>
         /// <param name="includes">Include</param>
         /// <returns>Çoğul veri IQueryable T</returns>
-        IQueryable<T> GetAll(Expression<Func<T, bool>>? expression, bool justActive = true, bool tracking = true, params Expression<Func<T, object>>[] includes);
+        IQueryable<T> GetAll(Expression<Func<T, bool>>? expression = null, bool justActive = true, bool tracking = true, params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         /// Asenkron - Id'ye göre veriyi verir. Tracking mekanizmasına ihtiyaç yoksa false atanmalıdı. Include işlemi için (x=>x.Property1,x=>x.Property2) kullanılmalıdır.
@@ -60,7 +60,7 @@ namespace SurveyApp.Application.Repositories
         /// <param name="tracking">Tracking</param>
         /// <param name="includes">Include</param>
         /// <returns>Tekil veri Task T</returns>
-        Task<T?> GetSingleAsync(Expression<Func<T, bool>> expression, bool tracking = true, params Expression<Func<T, object>>[] includes);
+        Task<T?> GetSingleAsync(Expression<Func<T, bool>>? expression = null, bool tracking = true, params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         /// 
@@ -68,7 +68,7 @@ namespace SurveyApp.Application.Repositories
         /// <param name="expression"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        Task<List<T>> GetListAsync(Expression<Func<T, bool>>? expression, bool justActive = true, params Expression<Func<T, object>>[] includes);
+        Task<List<T>> GetListAsync(Expression<Func<T, bool>>? expression = null, bool justActive = true, params Expression<Func<T, object>>[] includes);
         #endregion
         #region CRUD
         Task<bool> AddAsync(T entity);

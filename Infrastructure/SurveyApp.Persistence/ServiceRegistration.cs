@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SurveyApp.Application.Repositories;
+using SurveyApp.Application.UnitOfWork;
 using SurveyApp.Domain.Entities;
 using SurveyApp.Persistence.Contexts;
 using SurveyApp.Persistence.Repositories;
+using SurveyApp.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +22,12 @@ namespace SurveyApp.Persistence
             var conn = configuration["ConnectionString"].ToString();
             services.AddDbContext<SurveyAppContext>(options => options.UseSqlServer(conn));
 
-            services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            //var seedData = new SeedData();
-            //await seedData.SeedAsync(configuration);
+            //services.AddScoped<ICountryRepository, CountryRepository>();
+            //services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
+        //var seedData = new SeedData();
+        //await seedData.SeedAsync(configuration);
     }
 }
+
