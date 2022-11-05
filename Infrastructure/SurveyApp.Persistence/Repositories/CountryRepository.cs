@@ -15,7 +15,6 @@ namespace SurveyApp.Persistence.Repositories
         public CountryRepository(SurveyAppContext context) : base(context)
         {
         }
-
         public IQueryable<Country> OrderedByUserCount(bool tracking = true)
         {
             var query = Table.AsQueryable();

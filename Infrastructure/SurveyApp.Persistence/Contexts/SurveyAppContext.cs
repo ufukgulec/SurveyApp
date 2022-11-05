@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using SurveyApp.Domain.Entities;
 using SurveyApp.Domain.Entities.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,6 +112,7 @@ namespace SurveyApp.Persistence.Contexts
                 var conn = "server=UFUK;database=Survey;integrated security=true";
                 optionsBuilder.UseSqlServer(conn);
             }
+            //optionsBuilder.LogTo(message => Console.WriteLine(message));
         }
         public override int SaveChanges()
         {
