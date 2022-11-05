@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SurveyApp.Application.Repositories;
+using SurveyApp.Application.UnitOfWork;
 using SurveyApp.Domain.Entities;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -15,9 +16,9 @@ namespace SurveyApp.API.Controllers
     {
         private readonly IRoleRepository _roleRepository;
 
-        public RoleController(IRoleRepository roleRepository) : base()
+        public RoleController(IUnitOfWork service) : base(service)
         {
-            _roleRepository = roleRepository;
+            _roleRepository = service.RoleRepository;
         }
 
         [HttpGet("GetAll")]

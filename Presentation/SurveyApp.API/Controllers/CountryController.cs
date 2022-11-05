@@ -18,16 +18,22 @@ namespace SurveyApp.API.Controllers
     [ApiController]
     public class CountryController : BaseController<Country>
     {
-        private readonly IUnitOfWork service;
-        public CountryController(IUnitOfWork unitOfWork)
+        private readonly ICountryRepository _countryRepository;
+        public CountryController(IUnitOfWork service) : base(service)
         {
-            service = unitOfWork;
+            _countryRepository = service.CountryRepository;
         }
-        [HttpGet("GetAll")]
+        [HttpGet("Get")]
         public IActionResult Get()
         {
-            
-            var data = service.UserRepository.GetList();
+            var data = _countryRepository.GetList();
+
+            return Ok(data);
+        }
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            var data = _countryRepository.GetList();
 
             return Ok(data);
         }
