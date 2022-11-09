@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SurveyApp.Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using SurveyApp.Persistence.Contexts;
 namespace SurveyApp.Persistence.Migrations
 {
     [DbContext(typeof(SurveyAppContext))]
-    partial class SurveyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20221105160845_mig3")]
+    partial class mig3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

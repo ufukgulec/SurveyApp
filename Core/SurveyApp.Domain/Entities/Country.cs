@@ -13,9 +13,9 @@ namespace SurveyApp.Domain.Entities
     {
         public string Code { get; set; }
         public string Name { get; set; }
-        public string FlagUrl { get; set; }
-        //public string? Latitude { get; set; }
-        //public string? Longitude { get; set; }
-        public ICollection<Profile> Profiles { get; set; }
+        public string? FlagUrl { get; set; }
+        public string? Latitude { get; set; }
+        public string? Longitude { get; set; }
+        public ICollection<Profile>? Profiles { get; set; }
     }
 }

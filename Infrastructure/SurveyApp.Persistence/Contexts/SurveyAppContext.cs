@@ -144,13 +144,14 @@ namespace SurveyApp.Persistence.Contexts
                                     .Where(i => i.State == EntityState.Modified)
                                     .Select(i => (BaseEntity)i.Entity);
             PrepareAddedEntities(added);
-            PrepareModifiedEntities(added);
+            PrepareModifiedEntities(modified);
         }
         private void PrepareAddedEntities(IEnumerable<BaseEntity> entities)
         {
             foreach (var entity in entities)
             {
                 entity.CreatedDate = DateTime.Now;
+                //entity.Status = true;
             }
         }
         private void PrepareModifiedEntities(IEnumerable<BaseEntity> entities)

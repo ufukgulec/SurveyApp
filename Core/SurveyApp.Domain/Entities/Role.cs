@@ -12,6 +12,6 @@ namespace SurveyApp.Domain.Entities
     public class Role : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Profile> Profiles { get; set; }
+        public ICollection<Profile>? Profiles { get; set; }
     }
 }

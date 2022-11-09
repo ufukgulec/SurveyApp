@@ -13,27 +13,31 @@ namespace SurveyApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : BaseController<Role>
+    public class UserController : BaseController<Role>
     {
-        private readonly IRoleRepository _roleRepository;
 
-        public RoleController(IUnitOfWork service) : base(service)
+        public UserController(IUnitOfWork service) : base(service)
         {
-            _roleRepository = service.RoleRepository;
+
         }
 
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var data = await _roleRepository.GetByIdAsync(id);
+            var data = await service.UserRepository.GetByIdAsync(id);
+            return Ok(data);
+        }
+        [HttpGet("GetByEmail/{email}")]
+        public async Task<IActionResult> GetByEmail(string email)
+        {
+            var data = await service.UserRepository.GetSingleAsync(x => x.Email == email);
             return Ok(data);
         }
         [HttpGet("GetAll/{justActive}")]
         public async Task<IActionResult> GetAll(bool justActive)
         {
-            var data = await _roleRepository.GetListAsync(default, justActive);
+            var data = await service.UserRepository.GetListAsync(default, justActive, x => x.Profile.Country, x => x.Profile.Role);
             return Ok(data);
         }
     }
-
 }

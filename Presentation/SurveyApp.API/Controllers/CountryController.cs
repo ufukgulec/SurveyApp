@@ -23,24 +23,42 @@ namespace SurveyApp.API.Controllers
         {
             _countryRepository = service.CountryRepository;
         }
-        [HttpGet("Get")]
-        public IActionResult Get()
+        [HttpGet("Get/{id}")]
+        public async Task<IActionResult> GetById(string id)
         {
-            var data = _countryRepository.GetList();
-
+            var data = await _countryRepository.GetByIdAsync(id);
             return Ok(data);
         }
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
+        [HttpGet("GetBy")]
+        public async Task<IActionResult> GetBy(string? id, string? code)
         {
-            var data = _countryRepository.GetList();
+            if (id is not null)
+            {
+                var data = await _countryRepository.GetByIdAsync(id);
+                return Ok(data);
+            }
+            else if (code is not null)
+            {
+                var data = await _countryRepository.GetSingleAsync(x => x.Code == code);
+                return Ok(data);
+            }
+            else
+            {
+                return BadRequest();
+            }
 
+        }
+        [HttpGet("GetAll/{justActive}")]
+        public async Task<IActionResult> GetAll(bool justActive)
+        {
+            var data = await _countryRepository.GetListAsync(default, justActive);
             return Ok(data);
         }
-        [HttpGet("OrderedByUserCount")]
-        public IActionResult OrderedByUserCount()
+        [HttpPost]
+        public async Task<IActionResult> CreateCountry([FromBody] Country country)
         {
-            //var data = _countryRepository.GetAll();
+            await _countryRepository.AddAsync(country);
+            await _countryRepository.SaveAsync();
             return Ok();
         }
     }

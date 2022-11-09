@@ -24,5 +24,24 @@ namespace SurveyApp.Persistence.Repositories
             }
             return query.OrderByDescending(x => x.Profiles.Count);
         }
+        Country GetByCode(string Code, bool tracking = true)
+        {
+            var query = Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            var country = query.FirstOrDefault(x => x.Code == Code);
+            if (country != null)
+            {
+                return country;
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
     }
 }

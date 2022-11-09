@@ -15,9 +15,9 @@ namespace SurveyApp.Domain.Entities
         public string Surname { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Profile Profile { get; set; }
-        public ICollection<Survey> Surveys { get; set; }
-        public ICollection<Participant> Participants { get; set; }
+        public Profile? Profile { get; set; }
+        public ICollection<Survey>? Surveys { get; set; }
+        public ICollection<Participant>? Participants { get; set; }
 
     }
 }

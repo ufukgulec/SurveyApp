@@ -150,21 +150,21 @@ namespace SurveyApp.Persistence.Repositories
         public async Task<bool> AddAsync(T entity)
         {
             EntityEntry<T> entityEntry = await Table.AddAsync(entity);
-            await SaveAsync();
+            //await SaveAsync();
             return entityEntry.State == EntityState.Added;
         }
 
         public async Task<bool> AddRangeAsync(List<T> entities)
         {
             await Table.AddRangeAsync(entities);
-            await SaveAsync();
+            //await SaveAsync();
             return true;
         }
 
         public async Task<bool> Update(T entity)
         {
             EntityEntry<T> entityEntry = Table.Update(entity);
-            await SaveAsync();
+            //await SaveAsync();
             return entityEntry.State == EntityState.Modified;
         }
 
@@ -185,14 +185,14 @@ namespace SurveyApp.Persistence.Repositories
         public bool Remove(T entity)
         {
             EntityEntry<T> entityEntry = Table.Remove(entity);
-            Save();
+            //Save();
             return entityEntry.State == EntityState.Deleted;
         }
 
         public bool RemoveRange(List<T> entities)
         {
             Table.RemoveRange(entities);
-            Save();
+            //Save();
             return true;
         }
 

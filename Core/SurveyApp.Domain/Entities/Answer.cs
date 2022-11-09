@@ -10,8 +10,8 @@ namespace SurveyApp.Domain.Entities
     public class Answer:BaseEntity
     {
         public Guid ParticipantId { get; set; }
-        public Participant Participant { get; set; }
+        public Participant? Participant { get; set; }
         public Guid ChoiceId { get; set; }
-        public Choice Choice { get; set; }
+        public Choice? Choice { get; set; }
     }
 }
